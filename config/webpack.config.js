@@ -269,9 +269,21 @@ module.exports = function (webpackEnv) {
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
-        chunks: "all",
-        name: false,
+        cacheGroups: {
+          commons: {
+            // 打包两个页面的公共代码
+            name: "common", // 分离包的名字
+            chunks: "all",
+            minChunks: 2,
+          },
+          vue: {
+            name: "vendors",
+            test: /(react|react-dom)/,
+            chunks: "all",
+          },
+        },
       },
+
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
